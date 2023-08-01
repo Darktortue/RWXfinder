@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <windows.h>
 
+FILE* outputFile;
+
 void SetConsoleColor(int colorCode)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -65,13 +67,14 @@ void CheckDLLForRWX(const char* dllPath)
         SetConsoleColor(10); // Set text color to green
         printf("[RWX] %s\n", dllPath);
         SetConsoleColor(7); // Set text color to default
-
-    printf("Section Name: %.8s\n", sectionHeader->Name);
-    printf("Virtual Size: 0x%X\n", sectionHeader->Misc.VirtualSize);
-    printf("Virtual Address: 0x%X\n", sectionHeader->VirtualAddress);
-    printf("Size of Raw Data: 0x%X\n", sectionHeader->SizeOfRawData);
-    printf("Characteristics: 0x%X\n", sectionHeader->Characteristics);
-    printf("---------------------------\n");
+		
+    fprintf(outputFile, "[RWX] %s\n", dllPath);
+	fprintf(outputFile, "Section Name: %.8s\n", sectionHeader->Name);
+	fprintf(outputFile, "Virtual Size: 0x%X\n", sectionHeader->Misc.VirtualSize);
+	fprintf(outputFile, "Virtual Address: 0x%X\n", sectionHeader->VirtualAddress);
+	fprintf(outputFile, "Size of Raw Data: 0x%X\n", sectionHeader->SizeOfRawData);
+	fprintf(outputFile, "Characteristics: 0x%X\n", sectionHeader->Characteristics);
+	fprintf(outputFile, "---------------------------\n");
 
         // Perform additional testing or analysis on the DLL here
         // ...
@@ -130,8 +133,16 @@ int main()
 {
     // Setting PATH to check
     SetDllDirectory("C:\\Program Files (x86)");
+	
+	outputFile = fopen("dll_with_rwx.txt", "w");
+    if (outputFile == NULL)
+    {
+        fprintf(stderr, "Failed to open output file.\n");
+        return 1;
+    }
 
     TraverseDirectory("C:\\");
 
+	fclose(outputFile);
     return 0;
 }
