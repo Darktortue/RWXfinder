@@ -64,26 +64,26 @@ void CheckDLLForRWX(const char* dllPath)
 
     if (hasDefaultRWXSection)
     {
-        SetConsoleColor(10); // Set text color to green
-        printf("[RWX] %s\n", dllPath);
-        SetConsoleColor(7); // Set text color to default
-		
-    fprintf(outputFile, "[RWX] %s\n", dllPath);
-	fprintf(outputFile, "Section Name: %.8s\n", sectionHeader->Name);
-	fprintf(outputFile, "Virtual Size: 0x%X\n", sectionHeader->Misc.VirtualSize);
-	fprintf(outputFile, "Virtual Address: 0x%X\n", sectionHeader->VirtualAddress);
-	fprintf(outputFile, "Size of Raw Data: 0x%X\n", sectionHeader->SizeOfRawData);
-	fprintf(outputFile, "Characteristics: 0x%X\n", sectionHeader->Characteristics);
-	fprintf(outputFile, "---------------------------\n");
+	    SetConsoleColor(10); // Set text color to green
+	    printf("[RWX] %s\n", dllPath);
+	    SetConsoleColor(7); // Set text color to default
+	    
+	    fprintf(outputFile, "[RWX] %s\n", dllPath);
+	    fprintf(outputFile, "Section Name: %.8s\n", sectionHeader->Name);
+	    fprintf(outputFile, "Virtual Size: 0x%X\n", sectionHeader->Misc.VirtualSize);
+	    fprintf(outputFile, "Virtual Address: 0x%X\n", sectionHeader->VirtualAddress);
+	    fprintf(outputFile, "Size of Raw Data: 0x%X\n", sectionHeader->SizeOfRawData);
+	    fprintf(outputFile, "Characteristics: 0x%X\n", sectionHeader->Characteristics);
+	    fprintf(outputFile, "---------------------------\n");
 
         // Perform additional testing or analysis on the DLL here
         // ...
 
     }
-    else
+    /*else
     {
         printf("%s\n", dllPath);
-    }
+    }*/
 
     UnmapViewOfFile(fileView);
     CloseHandle(fileMapping);
